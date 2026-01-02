@@ -1,21 +1,28 @@
 package com.example.auth_service.service;
 
+import com.example.auth_service.client.DoctorClient;
+import com.example.auth_service.dto.DoctorProfileDto;
+import com.example.auth_service.dto.RegisterRequest;
 import com.example.auth_service.model.Role;
 import com.example.auth_service.model.User;
 import com.example.auth_service.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    private final DoctorClient doctorClient;
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,  DoctorClient doctorClient) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.doctorClient = doctorClient;
     }
 
     public String login(String username, String password) {
@@ -35,14 +42,26 @@ public class AuthService {
         }
 
     }
-    public void register(String username, String password, Role role){
-        if (userRepository.existsByUsername(username)){
+    public void register(RegisterRequest request){
+        if (userRepository.existsByUsername(request.getUsername())){
             throw new RuntimeException("Username exists");
         }
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRole(role);
+        user.setUsername(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(request.getRole());
         userRepository.save(user);
+        if (request.getRole() == Role.DOCTOR) {
+
+            DoctorProfileDto profileDto = new DoctorProfileDto(
+                    request.getUsername(),
+                    request.getFirstName(),
+                    request.getLastName(),
+                    request.getEmail(),
+                    request.getSpecialization()
+            );
+
+            doctorClient.createDoctorProfile(profileDto);
+        }
     }
 }

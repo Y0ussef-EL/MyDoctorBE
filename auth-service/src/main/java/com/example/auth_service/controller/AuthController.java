@@ -42,9 +42,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
 
         authService.register(
-                request.username,
-                request.password,
-                request.role
+                request
         );
 
         return ResponseEntity.status(HttpStatus.CREATED)
