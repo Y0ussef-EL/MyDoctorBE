@@ -1,6 +1,5 @@
 package com.example.auth_service.service;
 
-import com.example.auth_service.model.User;
 import com.example.auth_service.model.Role;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

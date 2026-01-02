@@ -3,8 +3,6 @@ package com.example.auth_service.service;
 import com.example.auth_service.model.Role;
 import com.example.auth_service.model.User;
 import com.example.auth_service.repository.UserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +19,7 @@ public class AuthService {
     }
 
     public String login(String username, String password) {
+        System.out.println("LOGIN ATTEMPT: Username='" + username + "'");
         User user = userRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("User not found"));
 
         System.out.println("RAW PASSWORD = " + password);
