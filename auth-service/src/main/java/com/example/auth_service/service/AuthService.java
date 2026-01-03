@@ -42,6 +42,9 @@ public class AuthService {
         }
 
     }
+    public void logout(String token) {
+
+    }
     public void register(RegisterRequest request){
         if (userRepository.existsByUsername(request.getUsername())){
             throw new RuntimeException("Username exists");

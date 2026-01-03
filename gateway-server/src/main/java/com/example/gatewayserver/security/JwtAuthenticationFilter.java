@@ -47,13 +47,11 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
             System.out.println("JWT FILTER: Valid Token. User=" + username + ", Role=" + role);
 
-            // 🔒 4. Check Permissions (Gateway Level)
             if (path.startsWith("/doctor-service/") && !"DOCTOR".equals(role)) {
                 System.out.println("JWT FILTER: Role mismatch! Expected DOCTOR, got " + role);
                 return forbidden(exchange);
             }
 
-            // 📝 5. Inject Headers (The Critical Part)
             if (username != null && role != null) {
                 ServerHttpRequest mutatedRequest = exchange.getRequest()
                         .mutate()

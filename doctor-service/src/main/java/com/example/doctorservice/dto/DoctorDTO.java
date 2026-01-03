@@ -7,6 +7,14 @@ public class DoctorDTO {
     private String email;
     private String specialization;
 
+    public DoctorDTO(String username, String firstName, String lastName, String email, String specialization) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.specialization = specialization;
+    }
+
     // Getters and Setters are REQUIRED for JSON mapping
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }

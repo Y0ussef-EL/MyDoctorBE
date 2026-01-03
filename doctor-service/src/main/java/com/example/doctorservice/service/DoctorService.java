@@ -4,6 +4,7 @@ import com.example.doctorservice.dto.DoctorDTO;
 import com.example.doctorservice.model.Doctor;
 import com.example.doctorservice.model.Specialization;
 import com.example.doctorservice.repository.DoctorRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,5 +33,10 @@ public class DoctorService {
         }
 
         doctorRepository.save(doctor);
+    }
+    public DoctorDTO getDoctor(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Doctor doc = doctorRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("the doctor with the provided username do not exist"));
+        return new DoctorDTO(doc.getUsername(),  doc.getFirstName(), doc.getLastName(), doc.getEmail(), doc.getSpecialization().toString());
     }
 }

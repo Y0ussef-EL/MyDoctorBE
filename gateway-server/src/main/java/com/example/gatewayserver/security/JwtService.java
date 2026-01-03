@@ -25,7 +25,6 @@ public class JwtService {
     }
 
     private Key getSigningKey() {
-        // This converts "bXkt..." back into "my-super-secret-key..."
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }

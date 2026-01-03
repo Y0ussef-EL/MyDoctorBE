@@ -15,9 +15,8 @@ public class SecurityConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(auth -> auth
-                        // ✅ MUST include service prefix
                         .pathMatchers("/auth-service/api/auth/**").permitAll()
-                        .anyExchange().permitAll() // JWT handled by GlobalFilter
+                        .anyExchange().permitAll()
                 )
                 .build();
     }

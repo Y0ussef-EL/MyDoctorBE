@@ -3,6 +3,7 @@ package com.example.doctorservice.controller;
 import com.example.doctorservice.dto.DoctorDTO;
 import com.example.doctorservice.model.Doctor;
 import com.example.doctorservice.service.DoctorService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,11 @@ public class DoctorController {
         System.out.println("DEBUG: Received First Name: " + request.getFirstName());
         System.out.println("DEBUG: Received Last Name: " + request.getLastName());
         doctorService.createDoctor(request);
+    }
+    @GetMapping("/me")
+    public ResponseEntity<DoctorDTO> findDoctor() {
+        return ResponseEntity.ok(doctorService.getDoctor());
+
     }
 
 }
