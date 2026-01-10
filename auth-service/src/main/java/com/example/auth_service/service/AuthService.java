@@ -1,6 +1,7 @@
 package com.example.auth_service.service;
 
 import com.example.auth_service.client.DoctorClient;
+import com.example.auth_service.dto.AuthResponse;
 import com.example.auth_service.dto.DoctorProfileDto;
 import com.example.auth_service.dto.RegisterRequest;
 import com.example.auth_service.model.Role;
@@ -25,19 +26,17 @@ public class AuthService {
         this.doctorClient = doctorClient;
     }
 
-    public String login(String username, String password) {
-        System.out.println("LOGIN ATTEMPT: Username='" + username + "'");
+    public AuthResponse login(String username, String password) {
         User user = userRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("User not found"));
 
-        System.out.println("RAW PASSWORD = " + password);
-        System.out.println("DB PASSWORD  = " + user.getPassword());
-        System.out.println("MATCHES = " + passwordEncoder.matches(password, user.getPassword()));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Wrong password");
         }
         else{
-            return jwtService.generateToken(user.getUsername(),user.getRole());
+            String token = jwtService.generateToken(user.getUsername(),user.getRole());
+
+            return new AuthResponse(token, user.getRole());
 
         }
 

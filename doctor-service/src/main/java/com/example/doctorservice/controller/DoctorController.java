@@ -1,11 +1,14 @@
 package com.example.doctorservice.controller;
 
 import com.example.doctorservice.dto.DoctorDTO;
+import com.example.doctorservice.dto.DoctorPtDTO;
 import com.example.doctorservice.model.Doctor;
 import com.example.doctorservice.service.DoctorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -32,6 +35,11 @@ public class DoctorController {
     public ResponseEntity<DoctorDTO> findDoctor() {
         return ResponseEntity.ok(doctorService.getDoctor());
 
+    }
+    @GetMapping("/alldoctors")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<List<DoctorPtDTO>> findAllDoctor() {
+        return ResponseEntity.ok(doctorService.getAllDoctors());
     }
 
 }

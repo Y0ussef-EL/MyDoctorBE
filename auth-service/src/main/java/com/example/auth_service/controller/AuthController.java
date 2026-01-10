@@ -2,11 +2,13 @@ package com.example.auth_service.controller;
 
 import com.example.auth_service.dto.AuthResponse;
 import com.example.auth_service.dto.LoginRequest;
+import com.example.auth_service.dto.MeResponse;
 import com.example.auth_service.dto.RegisterRequest;
 import com.example.auth_service.repository.UserRepository;
 import com.example.auth_service.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,12 +31,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
-        String token = authService.login(
-                loginRequest.username,
-                loginRequest.password
-        );
-
-        return ResponseEntity.ok(new AuthResponse(token));
+                return ResponseEntity.ok(authService.login(loginRequest.username,  loginRequest.password));
 
     }
 
@@ -47,5 +44,12 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("User registered successfully");
+    }
+
+    @PostMapping("/me")
+    public ResponseEntity<MeResponse> me(Authentication authentication) {
+        String username = authentication.getName();
+        String role = authentication.getAuthorities().iterator().next().toString();
+        return ResponseEntity.ok(new MeResponse(username,role));
     }
 }

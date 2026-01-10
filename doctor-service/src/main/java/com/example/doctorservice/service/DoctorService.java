@@ -1,11 +1,15 @@
 package com.example.doctorservice.service;
 
 import com.example.doctorservice.dto.DoctorDTO;
+import com.example.doctorservice.dto.DoctorPtDTO;
 import com.example.doctorservice.model.Doctor;
 import com.example.doctorservice.model.Specialization;
 import com.example.doctorservice.repository.DoctorRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DoctorService {
@@ -38,5 +42,15 @@ public class DoctorService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Doctor doc = doctorRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("the doctor with the provided username do not exist"));
         return new DoctorDTO(doc.getUsername(),  doc.getFirstName(), doc.getLastName(), doc.getEmail(), doc.getSpecialization().toString());
+    }
+    public List<DoctorPtDTO> getAllDoctors(){
+        List<Doctor> doctors = doctorRepository.findAll();
+        List<DoctorPtDTO> dtos = new ArrayList<>();
+        for (Doctor doc : doctors) {
+            DoctorPtDTO dto = new DoctorPtDTO(doc.getFirstName(), doc.getLastName(),doc.getSpecialization().toString());
+            dtos.add(dto);
+        }
+        return dtos;
+
     }
 }
