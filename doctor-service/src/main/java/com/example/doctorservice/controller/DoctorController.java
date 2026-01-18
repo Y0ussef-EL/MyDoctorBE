@@ -37,7 +37,6 @@ public class DoctorController {
 
     }
     @GetMapping("/alldoctors")
-    @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<List<DoctorPtDTO>> findAllDoctor() {
         return ResponseEntity.ok(doctorService.getAllDoctors());
     }

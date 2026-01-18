@@ -39,6 +39,8 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         try {
             String token = authHeader.substring(7);
             Claims claims = jwtService.extractClaims(token);
+            String internalService =
+                    exchange.getRequest().getHeaders().getFirst("X-Internal-Service");
 
             String role = claims.get("role", String.class);
 
@@ -46,6 +48,8 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             String username = claims.getSubject();
 
             System.out.println("JWT FILTER: Valid Token. User=" + username + ", Role=" + role);
+
+            System.out.println("AUTH HEADER = " + authHeader);
 
             if (path.startsWith("/doctor-service/") && !"DOCTOR".equals(role)) {
                 System.out.println("JWT FILTER: Role mismatch! Expected DOCTOR, got " + role);

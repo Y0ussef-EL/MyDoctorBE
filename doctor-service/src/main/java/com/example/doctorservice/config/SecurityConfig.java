@@ -30,6 +30,11 @@ public class SecurityConfig {
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/doctor/create").permitAll()
+                        .requestMatchers(request ->
+                                "patient-service".equals(
+                                        request.getHeader("X-Internal-Service")
+                                )
+                        ).permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/doctor/**").hasRole("DOCTOR")
                     .anyRequest().hasRole("DOCTOR")
