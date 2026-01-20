@@ -1,8 +1,10 @@
 package com.example.auth_service.service;
 
 import com.example.auth_service.client.DoctorClient;
+import com.example.auth_service.client.PatientClient;
 import com.example.auth_service.dto.AuthResponse;
 import com.example.auth_service.dto.DoctorProfileDto;
+import com.example.auth_service.dto.PatientProfileDto;
 import com.example.auth_service.dto.RegisterRequest;
 import com.example.auth_service.model.Role;
 import com.example.auth_service.model.User;
@@ -19,11 +21,14 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final DoctorClient doctorClient;
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,  DoctorClient doctorClient) {
+    private final PatientClient patientClient;
+
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, DoctorClient doctorClient, PatientClient patientClient) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.doctorClient = doctorClient;
+        this.patientClient = patientClient;
     }
 
     public AuthResponse login(String username, String password) {
@@ -64,6 +69,17 @@ public class AuthService {
             );
 
             doctorClient.createDoctorProfile(profileDto);
+        }
+        if (request.getRole() == Role.PATIENT) {
+            PatientProfileDto patientDto = new PatientProfileDto(
+                    request.getUsername(),
+                    request.getFirstName(),
+                    request.getLastName(),
+                    request.getEmail(),
+                    request.getBirthDate(),
+                    request.getGender()
+            );
+            patientClient.createPatientProfile(patientDto);
         }
     }
 }

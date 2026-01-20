@@ -2,6 +2,8 @@ package com.example.auth_service.dto;
 
 import com.example.auth_service.model.Role;
 
+import java.util.Date;
+
 public class RegisterRequest {
     private String username;
     private String firstName;
@@ -9,7 +11,27 @@ public class RegisterRequest {
     private String password;
     private Role role;
     private String email;
+    private Date birthDate;  // Only for Patients
+    private String gender;  // Only for Patients
     private String specialization; // Only for Doctors
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+
 
     public String getUsername() {
         return username;
