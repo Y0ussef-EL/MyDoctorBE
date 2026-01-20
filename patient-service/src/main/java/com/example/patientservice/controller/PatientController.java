@@ -4,6 +4,7 @@ import com.example.patientservice.dto.DoctorDto;
 import com.example.patientservice.dto.PatientDTO;
 import com.example.patientservice.service.DoctorServiceClient;
 import com.example.patientservice.service.PatientService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,5 +36,10 @@ public class PatientController {
     public List<DoctorDto> getDoctors() {
         System.out.println("doc endpoints hit");
         return doctorServiceClient.fetchAllDoctors();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<PatientDTO> findPatient() {
+        return ResponseEntity.ok(patientService.getPatient());
     }
 }
