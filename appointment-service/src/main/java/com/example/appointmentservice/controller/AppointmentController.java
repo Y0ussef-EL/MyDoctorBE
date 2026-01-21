@@ -30,8 +30,13 @@ public class AppointmentController {
     @PreAuthorize("hasRole('DOCTOR')")
     public List<Appointment> getDoctorAppointments(){
         System.out.println("controller hit succesfully");
-        return appointmentService
-                .getDoctorsAppointments();
+        return appointmentService.getDoctorsAppointments();
+    }
+    @GetMapping("/patient/appointment")
+    @PreAuthorize("hasRole('PATIENT')")
+    public List<Appointment> getPatientAppointments(){
+        System.out.println("controller hit succesfully");
+        return appointmentService.getPatientsAppointments();
     }
     @PutMapping("/doctor/status")
     @PreAuthorize("hasRole('DOCTOR')")

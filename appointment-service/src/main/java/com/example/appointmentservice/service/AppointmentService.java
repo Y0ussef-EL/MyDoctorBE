@@ -36,6 +36,10 @@ public class AppointmentService {
         String doctorUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         return appointmentRepository.findAllByDoctorUsernameAndDateAfter(doctorUsername, LocalDateTime.now());
     }
+    public List<Appointment> getPatientsAppointments(){
+        String patientUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        return appointmentRepository.findAllByPatientUsernameAndDateAfter(patientUsername, LocalDateTime.now());
+    }
     public Appointment updateAppointmentStatus(UpdateAppointmentStatusRequest request) {
         String doctorUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
