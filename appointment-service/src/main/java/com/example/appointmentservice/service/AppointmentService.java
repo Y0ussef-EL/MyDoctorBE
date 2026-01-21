@@ -1,9 +1,11 @@
 package com.example.appointmentservice.service;
 
 import com.example.appointmentservice.dto.CreateAppointmentRequest;
+import com.example.appointmentservice.dto.UpdateAppointmentStatusRequest;
 import com.example.appointmentservice.model.Appointment;
 import com.example.appointmentservice.model.Status;
 import com.example.appointmentservice.repository.AppointmentRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +35,17 @@ public class AppointmentService {
     public List<Appointment> getDoctorsAppointments(){
         String doctorUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         return appointmentRepository.findAllByDoctorUsernameAndDateAfter(doctorUsername, LocalDateTime.now());
+    }
+    public Appointment updateAppointmentStatus(UpdateAppointmentStatusRequest request) {
+        String doctorUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Appointment appointment = appointmentRepository.findByIdAndDoctorUsername(request.getId(), doctorUsername)
+                .orElseThrow(() -> new RuntimeException("Appointment not found or access denied"));
+        if (appointment.getStatus() == Status.CANCELLED) {
+            throw new RuntimeException("Cannot modify a cancelled appointment");
+        }
+        appointment.setStatus(request.getStatus());
+
+        return appointmentRepository.save(appointment);
     }
 }

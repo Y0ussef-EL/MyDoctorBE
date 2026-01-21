@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/appointment/create").hasRole("PATIENT")
                         .requestMatchers(HttpMethod.GET,"/api/appointment/doctor/appointment").hasRole("DOCTOR")
+                        .requestMatchers(HttpMethod.PUT, "/api/appointment/doctor/status").hasRole("DOCTOR")
 
                         .anyRequest().denyAll()
                 );

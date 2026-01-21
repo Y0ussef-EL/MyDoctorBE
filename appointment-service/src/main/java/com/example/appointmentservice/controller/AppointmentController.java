@@ -1,6 +1,7 @@
 package com.example.appointmentservice.controller;
 
 import com.example.appointmentservice.dto.CreateAppointmentRequest;
+import com.example.appointmentservice.dto.UpdateAppointmentStatusRequest;
 import com.example.appointmentservice.model.Appointment;
 import com.example.appointmentservice.service.AppointmentService;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,11 @@ public class AppointmentController {
         System.out.println("controller hit succesfully");
         return appointmentService
                 .getDoctorsAppointments();
+    }
+    @PutMapping("/doctor/status")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public Appointment updateAppointmentStatus(@RequestBody UpdateAppointmentStatusRequest request) {
+        return appointmentService.updateAppointmentStatus(request);
     }
 
 }

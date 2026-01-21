@@ -33,6 +33,9 @@ public class Appointment {
         this.status = status;
         this.note = note;
     }
+    public Long getId() {
+        return id;
+    }
 
     public String getPatientUsername() {
         return patientUsername;
