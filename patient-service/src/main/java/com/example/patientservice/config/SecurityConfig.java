@@ -33,6 +33,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/patient/create").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/patient/doctors").hasRole("PATIENT")
+                        .requestMatchers(request ->
+                                "appointment-service".equals(
+                                        request.getHeader("X-Internal-Service")
+                                )
+                        ).permitAll()
                         .anyRequest().authenticated()
                 );
 

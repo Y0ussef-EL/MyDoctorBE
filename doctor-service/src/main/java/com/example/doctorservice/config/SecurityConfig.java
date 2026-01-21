@@ -35,6 +35,11 @@ public class SecurityConfig {
                                         request.getHeader("X-Internal-Service")
                                 )
                         ).permitAll()
+                        .requestMatchers(request ->
+                                "appointment-service".equals(
+                                        request.getHeader("X-Internal-Service")
+                                )
+                        ).permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/doctor/**").hasRole("DOCTOR")
                     .anyRequest().hasRole("DOCTOR")

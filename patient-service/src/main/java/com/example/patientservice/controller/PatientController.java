@@ -42,4 +42,9 @@ public class PatientController {
     public ResponseEntity<PatientDTO> findPatient() {
         return ResponseEntity.ok(patientService.getPatient());
     }
+
+    @GetMapping("/allpatients")
+    public List<PatientDTO> getPatients() {
+        return patientService.fetchAllPatients();
+    }
 }

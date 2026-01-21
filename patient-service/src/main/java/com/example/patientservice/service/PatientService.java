@@ -6,6 +6,9 @@ import com.example.patientservice.repository.PatientRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class PatientService {
     private final PatientRepository patientRepository;
@@ -27,5 +30,15 @@ public class PatientService {
         String username= SecurityContextHolder.getContext().getAuthentication().getName();
         Patient pat =patientRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("the patient with the provided username do not exist"));
         return new PatientDTO(pat.getUsername(), pat.getFirstName(),pat.getLastName(),pat.getEmail(),pat.getBirthDate(),pat.getGender());
+    }
+
+    public List<PatientDTO> fetchAllPatients(){
+        List<Patient> patients = patientRepository.findAll();
+        List<PatientDTO> patientDTOs = new ArrayList<>();
+        for (Patient patient : patients) {
+            PatientDTO patientDTO = new PatientDTO(patient.getUsername(),patient.getFirstName(),patient.getLastName(),patient.getEmail(),patient.getBirthDate(),patient.getGender());
+            patientDTOs.add(patientDTO);
+        }
+        return patientDTOs;
     }
 }
