@@ -1,21 +1,23 @@
 package com.example.appointmentservice.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(nullable = false)
     private String patientUsername;
     @Column(nullable = false)
     private String doctorUsername;
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime date;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -24,7 +26,7 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(String patientUsername, String doctorUsername, Date date, Status status, String note) {
+    public Appointment(String patientUsername, String doctorUsername, LocalDateTime date, Status status, String note) {
         this.patientUsername = patientUsername;
         this.doctorUsername = doctorUsername;
         this.date = date;
@@ -48,11 +50,11 @@ public class Appointment {
         this.doctorUsername = doctorUsername;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

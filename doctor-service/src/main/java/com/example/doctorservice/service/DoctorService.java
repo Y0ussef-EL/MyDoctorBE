@@ -47,7 +47,7 @@ public class DoctorService {
         List<Doctor> doctors = doctorRepository.findAll();
         List<DoctorPtDTO> dtos = new ArrayList<>();
         for (Doctor doc : doctors) {
-            DoctorPtDTO dto = new DoctorPtDTO(doc.getFirstName(), doc.getLastName(),doc.getSpecialization().toString());
+            DoctorPtDTO dto = new DoctorPtDTO(doc.getUsername(),doc.getFirstName(), doc.getLastName(),doc.getSpecialization().toString());
             dtos.add(dto);
         }
         return dtos;

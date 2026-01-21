@@ -56,6 +56,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
                 return forbidden(exchange);
             }
 
+
             if (username != null && role != null) {
                 ServerHttpRequest mutatedRequest = exchange.getRequest()
                         .mutate()
