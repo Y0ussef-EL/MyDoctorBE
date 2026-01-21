@@ -35,7 +35,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/appointment/doctor/status").hasRole("DOCTOR")
                         .requestMatchers(HttpMethod.GET,"/api/doctorpatientlist/patient/list").hasRole("PATIENT")
                         .requestMatchers(HttpMethod.GET,"/api/doctorpatientlist/doctor/list").hasRole("DOCTOR")
-
+                        .requestMatchers(HttpMethod.POST,"/api/medicalrecord/create").hasRole("DOCTOR")
 
 
                         .anyRequest().denyAll()
