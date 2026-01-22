@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class MedicalRecordService {
@@ -26,5 +27,9 @@ public class MedicalRecordService {
         record.setDate(new Date());
 
         return medicalRecordRepository.save(record);
+    }
+
+    public List<MedicalRecord> getMedicalRecordsofPatient() {
+        return medicalRecordRepository.findByPatientUsername(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }

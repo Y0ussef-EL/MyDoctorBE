@@ -1,6 +1,7 @@
 package com.example.appointmentservice.config;
 
 
+import jakarta.ws.rs.GET;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -36,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/api/doctorpatientlist/patient/list").hasRole("PATIENT")
                         .requestMatchers(HttpMethod.GET,"/api/doctorpatientlist/doctor/list").hasRole("DOCTOR")
                         .requestMatchers(HttpMethod.POST,"/api/medicalrecord/create").hasRole("DOCTOR")
+                        .requestMatchers(HttpMethod.GET,"api/medicalrecord/patientrecord").hasRole("PATIENT")
 
 
                         .anyRequest().denyAll()
