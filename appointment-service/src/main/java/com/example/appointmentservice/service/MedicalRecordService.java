@@ -1,6 +1,7 @@
 package com.example.appointmentservice.service;
 
 import com.example.appointmentservice.dto.MedicalRecordRequest;
+import com.example.appointmentservice.dto.PatientUsernameMedicalRecordRequest;
 import com.example.appointmentservice.model.MedicalRecord;
 import com.example.appointmentservice.repository.MedicalRecordRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,5 +32,8 @@ public class MedicalRecordService {
 
     public List<MedicalRecord> getMedicalRecordsofPatient() {
         return medicalRecordRepository.findByPatientUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+    public List<MedicalRecord> getMedicalRecordsofPatientforDoctor(PatientUsernameMedicalRecordRequest request) {
+        return medicalRecordRepository.findByPatientUsername(request.getPatientUsername());
     }
 }

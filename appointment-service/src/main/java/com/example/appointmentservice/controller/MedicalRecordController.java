@@ -28,4 +28,9 @@ public class MedicalRecordController {
     public List<MedicalRecord> getMedicalRecordsByPatient() {
         return medicalRecordService.getMedicalRecordsofPatient();
     }
+    @GetMapping("/patientrecordfordoctor")
+    @PreAuthorize("hasAnyRole('DOCTOR')")
+    public List<MedicalRecord> getMedicalRecordsByPatientforDocor(@RequestBody PatientUsernameMedicalRecordRequest request) {
+        return medicalRecordService.getMedicalRecordsofPatientforDoctor(request);
+    }
 }
